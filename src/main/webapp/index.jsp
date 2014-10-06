@@ -13,6 +13,9 @@
         <title>Instagrim</title>
         <link rel="stylesheet" type="text/css" href="Styles.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+
+
     </head>
     <body>
         <header>
@@ -29,11 +32,13 @@
                         LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
                         if (lg != null) {
                             String UserName = lg.getUsername();
-                            if (lg.getlogedin()) {
+                            if (lg.getlogedin() == true) {
                     %>
 
                 <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
-                <button onclick="<% lg.setLogedout();%>; "window.location.href='/index.jsp'> Logout</button>
+                            <form method="POST"  action="Logout">                
+                <input type="submit" value="Logout"> 
+            </form>
                     <%}
                             }else{
                                 %>
@@ -44,6 +49,8 @@
                             
                     }%>
             </ul>
+            
+
         </nav>
         <footer>
             <ul>
