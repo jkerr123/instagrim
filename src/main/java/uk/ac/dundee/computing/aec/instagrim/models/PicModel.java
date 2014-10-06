@@ -42,7 +42,7 @@ public class PicModel {
 
     Cluster cluster;
 
-    public void PicModel() {
+    public PicModel() {
 
     }
 

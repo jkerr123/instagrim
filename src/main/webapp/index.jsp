@@ -33,6 +33,7 @@
                     %>
 
                 <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
+                <button onclick="<% lg.setLogedout();%>; "window.location.href='/index.jsp'> Logout</button>
                     <%}
                             }else{
                                 %>
