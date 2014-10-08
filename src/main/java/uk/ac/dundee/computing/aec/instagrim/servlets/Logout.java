@@ -34,18 +34,9 @@ public class Logout extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Logout</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Logout at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        //try (PrintWriter out = response.getWriter()) {
+            
+        //}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -76,16 +67,19 @@ public class Logout extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
-                         //   RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
-	    //rd.forward(request,response);
-        
-        response.sendRedirect("/index.jsp");
+ 
         
         
-        request.getSession().invalidate();
+        
+        
 
+        request.getSession().invalidate();
+        
+        response.sendRedirect("/Instagrim");
         
         
+        //RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+	//rd.forward(request,response);
       
     }
 
