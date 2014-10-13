@@ -14,6 +14,8 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.*;
+
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
@@ -37,7 +39,7 @@ public class User {
             return false;
         }
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("insert into userprofiles (login,password) Values(?,?)");
+        PreparedStatement ps = session.prepare("insert into userprofiles (login,password) Values(?,?) if not exists");
        if (!isValidUser(username, password))
        {
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -83,6 +85,34 @@ public class User {
     
     return false;  
     }
+    
+    public LinkedList<String> getUserList()
+    {
+        
+        LinkedList<String> users = new LinkedList<>();
+        
+        
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select * from userprofiles;");
+        ResultSet rs = null;
+        BoundStatement boundStatement = new BoundStatement(ps);
+      rs = session.execute(boundStatement.bind( 
+                ));
+        if (rs.isExhausted()) {
+            System.out.println("No Images returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+                
+                String name = row.getString("login");
+                System.out.println(name);                
+                users.push(name);
+
+            }
+        }
+        return users;
+    }
+    
        public void setCluster(Cluster cluster) {
         this.cluster = cluster;
     }

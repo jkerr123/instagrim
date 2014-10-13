@@ -27,7 +27,7 @@
 
                
                 <li><a href="upload.jsp">Upload</a></li>
-                <li><a href="profile.jsp">Profile</a></li>
+                <li><a href="/Instagrim/Userlist">Profiles</a></li>
                     <%
                         
                         LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");

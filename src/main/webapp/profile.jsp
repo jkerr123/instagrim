@@ -4,9 +4,19 @@
     Author     : Jamie
 --%>
 
+
+
+<%@page import="com.datastax.driver.core.Row"%>
+<%@page import="com.datastax.driver.core.BoundStatement"%>
+<%@page import="com.datastax.driver.core.ResultSet"%>
+<%@page import="com.datastax.driver.core.PreparedStatement"%>
+<%@page import="com.datastax.driver.core.Session"%>
+<%@page import="com.datastax.driver.core.Cluster"%>
+<%@page import="uk.ac.dundee.computing.aec.instagrim.models.User"%>
 <%@page import="java.util.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
+<%@ page import="uk.ac.dundee.computing.aec.instagrim.lib.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,15 +27,14 @@
     <body>
         <header>
         
-         <%
-                        
-                        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
-                        if (lg != null) {     %>
+
         
-                        <h1><% out.println(lg.getUsername());}%></h1>
         <h2>Your world in Black and White</h2>
         </header>
-        
+          
+        <p>${Test} </p>
+             
+       <%out.println(request.getAttribute("Test"));%>
       
         <footer>
             <ul>
