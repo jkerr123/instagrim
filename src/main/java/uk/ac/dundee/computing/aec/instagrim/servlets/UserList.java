@@ -119,7 +119,6 @@ public class UserList extends HttpServlet {
         LinkedList<String> users = user.getUserList();
         RequestDispatcher rd = request.getRequestDispatcher("/profile.jsp");
         request.setAttribute("Users", users);
-        request.setAttribute("Test", users.get(0));
         rd.forward(request, response);       
         
     }

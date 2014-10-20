@@ -5,7 +5,8 @@
 --%>
 
 
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" 
+    prefix="c" %> 
 <%@page import="com.datastax.driver.core.Row"%>
 <%@page import="com.datastax.driver.core.BoundStatement"%>
 <%@page import="com.datastax.driver.core.ResultSet"%>
@@ -14,6 +15,7 @@
 <%@page import="com.datastax.driver.core.Cluster"%>
 <%@page import="uk.ac.dundee.computing.aec.instagrim.models.User"%>
 <%@page import="java.util.*"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.lib.*" %>
@@ -31,10 +33,13 @@
         
         <h2>Your world in Black and White</h2>
         </header>
-          
-        <p>${Test} </p>
+        
+        
+        <c:forEach items="${Users}" var="name">    
+            <a href="/Instagrim/Images/${name}">${name}</a><br>     
+        </c:forEach>
              
-       <%out.println(request.getAttribute("Test"));%>
+
       
         <footer>
             <ul>

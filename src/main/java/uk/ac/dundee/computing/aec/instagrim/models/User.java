@@ -99,15 +99,12 @@ public class User {
       rs = session.execute(boundStatement.bind( 
                 ));
         if (rs.isExhausted()) {
-            System.out.println("No Images returned");
+            
             return null;
         } else {
-            for (Row row : rs) {
-                
-                String name = row.getString("login");
-                System.out.println(name);                
+            for (Row row : rs) {                
+                String name = row.getString("login");                
                 users.push(name);
-
             }
         }
         return users;
