@@ -38,6 +38,15 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
+        
+        if(checkUserExists(username))
+        {
+            String test = "Got here";
+            
+            System.out.println("User exists");
+        }
+        else
+        {
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("insert into userprofiles (login,password) Values(?,?) if not exists");
        if (!isValidUser(username, password))
@@ -47,11 +56,31 @@ public class User {
                 boundStatement.bind( // here you are binding the 'boundStatement'
                         username,EncodedPassword));
         //We are assuming this always works.  Also a transaction would be good here !
-        
-        return true;
+       
+        }
+       return true;
        }
        
        return false;
+    }
+    
+    public boolean checkUserExists(String username)
+    {
+        
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select login from userprofiles where login =?");
+        
+                BoundStatement boundStatement = new BoundStatement(ps);
+         ResultSet results = null;
+                results = session.execute(boundStatement.bind(username));
+        
+        if (results.one() != null)
+        {
+            return true;
+        }    
+        
+        
+        return false;
     }
     
     public boolean isValidUser(String username, String Password){

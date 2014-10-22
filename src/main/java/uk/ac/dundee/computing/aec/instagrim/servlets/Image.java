@@ -147,13 +147,11 @@ public class Image extends HttpServlet {
                 PicModel tm = new PicModel();
                 tm.setCluster(cluster);
                 tm.insertPic(b, type, filename, username);
-
                 is.close();
             }
             RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");
              rd.forward(request, response);
         }
-
     }
 
     private void error(String mess, HttpServletResponse response) throws ServletException, IOException {
