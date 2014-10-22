@@ -47,6 +47,9 @@ public class Register extends HttpServlet {
             throws ServletException, IOException {
         String username=request.getParameter("username");
         String password=request.getParameter("password");
+        String email = request.getParameter("email");
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
         
         User us=new User();
         us.setCluster(cluster);
@@ -62,6 +65,7 @@ public class Register extends HttpServlet {
         }
         else
         {
+            us.RegisterUser(username, password, email, firstname, lastname);
             RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
             request.setAttribute("message", "Registered new user");
             rd.forward(request, response);     

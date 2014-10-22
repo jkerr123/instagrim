@@ -19,7 +19,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author jamie
  */
-@WebServlet(name = "Logout", urlPatterns = {"/Logout"})
+@WebServlet(
+        name = "Logout", urlPatterns = {"/Logout"})
 public class Logout extends HttpServlet {
 
     /**
@@ -73,11 +74,13 @@ public class Logout extends HttpServlet {
 
         request.getSession().invalidate();
         
-        response.sendRedirect("/Instagrim");
+        request.setAttribute("message", "You have been logged out");
+        
+        //response.sendRedirect("/Instagrim");
         
         
-        //RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
-	//rd.forward(request,response);
+        RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+	rd.forward(request,response);
       
     }
 

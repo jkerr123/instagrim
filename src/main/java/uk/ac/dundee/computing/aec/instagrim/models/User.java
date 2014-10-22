@@ -29,7 +29,7 @@ public class User {
         
     }
     
-    public boolean RegisterUser(String username, String password){
+    public boolean RegisterUser(String username, String password, String email, String firstname, String lastname){
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;
         try {
@@ -40,24 +40,18 @@ public class User {
         }
         
         if(checkUserExists(username))
-        {
-            String test = "Got here";
-            
+        {      
             System.out.println("User exists");
         }
         else
         {
-        Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("insert into userprofiles (login,password) Values(?,?) if not exists");
-       if (!isValidUser(username, password))
-       {
-        BoundStatement boundStatement = new BoundStatement(ps);
-        session.execute( // this is where the query is executed
-                boundStatement.bind( // here you are binding the 'boundStatement'
-                        username,EncodedPassword));
-        //We are assuming this always works.  Also a transaction would be good here !
+                Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("insert into userprofiles (login, email, firstname, lastname, password) Values(?,?,?,?,?)");
        
-        }
+        BoundStatement boundStatement = new BoundStatement(ps);
+        session.execute(boundStatement.bind(username, email, firstname, lastname, EncodedPassword));  
+       
+        
        return true;
        }
        
@@ -113,6 +107,37 @@ public class User {
    
     
     return false;  
+    }
+    
+    public LinkedList<String> getUserInfo(String username)
+    {
+        
+        LinkedList<String> userinfo = new LinkedList<>();        
+        
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select * from userprofiles where login =?;");
+        ResultSet rs = null;
+        BoundStatement boundStatement = new BoundStatement(ps);
+        rs = session.execute(boundStatement.bind( 
+               username ));
+        if (rs.isExhausted()) {
+            
+            return null;
+        } else {
+            for (Row row : rs) {                
+                String user = row.getString("login");
+                String email = row.getString("email");
+                String firstname = row.getString("firstname");
+                String lastname = row.getString("lastname");
+                userinfo.push(user);
+                userinfo.push(email);
+                userinfo.push(firstname);
+                userinfo.push(lastname);
+            }
+        }
+        return userinfo;
+        
+        
     }
     
     public LinkedList<String> getUserList()

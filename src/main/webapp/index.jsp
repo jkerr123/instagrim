@@ -7,6 +7,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" 
+    prefix="c" %> 
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,28 +33,25 @@
                
                 <li><a href="upload.jsp">Upload</a></li>
                 <li><a href="/Instagrim/Userlist">Profiles</a></li>
-                    <%
-                        
-                        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
-                        if (lg != null) {
-                            String UserName = lg.getUsername();
-                            if (lg.getlogedin() == true) {
-                    %>
-
-                <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
-                            <form method="POST"  action="Logout">                
+                
+     <c:choose>
+                <c:when test="${LoggedIn.loggedin}">                 
+                <li><a href="/Instagrim/Images/${LoggedIn.username}">Your Images</a></li>
+                <form method="POST"  action="Logout">                
                 <input type="submit" value="Logout"> 
-            </form>
-                    <%}
-                            }else{
-                                %>
-                 <li><a href="register.jsp">Register</a></li>
+                </form>
+                </c:when>
+                
+                
+                
+                <c:otherwise>
+                <li><a href="register.jsp">Register</a></li>
                 <li><a href="login.jsp">Login</a></li>
-                <%
-                                        
-                            
-                    }%>
+                </c:otherwise>
+     </c:choose>
+                
             </ul>
+                
             
 
         </nav>

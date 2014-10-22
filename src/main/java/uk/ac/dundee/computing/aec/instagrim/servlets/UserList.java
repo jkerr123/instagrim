@@ -79,7 +79,7 @@ public class UserList extends HttpServlet {
                 getUserList(request, response);
                 break;
             case 2:
-                
+                getUserProfile(request, response, args[2]);
                 break;
 
             default:
@@ -112,12 +112,25 @@ public class UserList extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
+    
+    public void getUserProfile(HttpServletRequest request, HttpServletResponse response, String username) throws ServletException, IOException
+    {
+        User user = new User();
+        user.setCluster(cluster);
+        LinkedList<String> userprofile = user.getUserInfo(username);
+        RequestDispatcher rd = request.getRequestDispatcher("/userprofile.jsp");
+        request.setAttribute("User", userprofile);
+        rd.forward(request, response);  
+        
+        
+    }
+    
     public void getUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         User user = new User();
         user.setCluster(cluster);
         LinkedList<String> users = user.getUserList();
-        RequestDispatcher rd = request.getRequestDispatcher("/profile.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/profilelist.jsp");
         request.setAttribute("Users", users);
         rd.forward(request, response);       
         

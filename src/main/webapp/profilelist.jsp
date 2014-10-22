@@ -36,7 +36,7 @@
         
         
         <c:forEach items="${Users}" var="name">    
-            <a href="/Instagrim/Images/${name}">${name}</a><br>     
+            <a href="/Instagrim/UserProfile/${name}">${name}</a><br>     
         </c:forEach>
              
 
