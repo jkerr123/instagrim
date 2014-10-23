@@ -7,6 +7,8 @@
 <%@page import="java.util.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" 
+    prefix="c" %> 
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,27 +32,15 @@
  
         <article>
             <h1>Your Pics</h1>
-        <%/*
-            java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
-            if (lsPics == null) { */
-        %>
-        <p>No Pictures found</p>
-        <% /*
-        } else {
-            Iterator<Pic> iterator;
-            iterator = lsPics.iterator();
-            while (iterator.hasNext()) {
-                Pic p = (Pic) iterator.next(); */
 
-        %>
-        <!--<a href="/Instagrim/Image/<%//=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%//=p.getSUUID()%>"></a><br/>--><%
-
-           // }
-           // }
-        %>
         
-        <c:forEach items="${Pics}" var="pic">    
-            <a href="/Instagrim/Image/${pic.getSUUID()}" ><img src="/Instagrim/Thumb/${pic.getSUUID()}"></a><br/> 
+        <c:forEach items="${Pics}" var="pic"> 
+            <c:choose>
+            <c:when test="${pic.getSUUID()} != null">
+            <a href="/Instagrim/Image/${pic.getSUUID()}" ><img src="/Instagrim/Thumb/${pic.SUUID}"></a><br/> 
+            </c:when>
+            <c:otherwise> No Pictures Found </c:otherwise>
+            </c:choose>
         </c:forEach>
         
         </article>

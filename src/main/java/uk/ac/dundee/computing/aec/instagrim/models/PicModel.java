@@ -139,6 +139,7 @@ public class PicModel {
                 java.util.UUID UUID = row.getUUID("picid");
                 System.out.println("UUID" + UUID.toString());
                 pic.setUUID(UUID);
+                pic.setSUUID();
                 Pics.add(pic);
 
             }

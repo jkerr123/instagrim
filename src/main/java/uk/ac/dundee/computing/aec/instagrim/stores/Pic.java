@@ -18,6 +18,7 @@ public class Pic {
     private int length;
     private String type;
     private java.util.UUID UUID=null;
+    private String SUUID = null;
     
     public void Pic() {
 
@@ -25,13 +26,18 @@ public class Pic {
     public void setUUID(java.util.UUID UUID){
         this.UUID =UUID;
     }
-    public String getSUUID(){
-        return UUID.toString();
+    public void setSUUID(){
+        SUUID = UUID.toString();
     }
     public void setPic(ByteBuffer bImage, int length,String type) {
         this.bImage = bImage;
         this.length = length;
         this.type=type;
+    }
+    
+    public String getSUUID()
+    {
+        return SUUID;
     }
 
     public ByteBuffer getBuffer() {
