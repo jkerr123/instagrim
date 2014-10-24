@@ -32,7 +32,7 @@
 
                
                 <li><a href="upload.jsp">Upload</a></li>
-                <li><a href="/Instagrim/Userlist">Profiles</a></li>
+                <li><a href="/Instagrim/Userlist">User Profiles</a></li>
                 
      <c:choose>
                 <c:when test="${LoggedIn.loggedin}">                 
@@ -40,9 +40,7 @@
                 <form method="POST"  action="Logout">                
                 <input type="submit" value="Logout"> 
                 </form>
-                </c:when>
-                
-                
+                </c:when>             
                 
                 <c:otherwise>
                 <li><a href="register.jsp">Register</a></li>

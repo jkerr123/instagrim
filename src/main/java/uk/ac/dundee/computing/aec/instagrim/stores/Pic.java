@@ -35,6 +35,12 @@ public class Pic {
         this.type=type;
     }
     
+    public void setLength(int length)
+    {
+        this.length = length;
+        
+    }
+    
     public String getSUUID()
     {
         return SUUID;

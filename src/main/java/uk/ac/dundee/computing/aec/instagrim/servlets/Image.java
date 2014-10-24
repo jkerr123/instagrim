@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.UUID;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -25,6 +27,7 @@ import org.apache.commons.fileupload.util.Streams;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
 import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
+import uk.ac.dundee.computing.aec.instagrim.stores.Comment;
 import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
@@ -36,7 +39,8 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
     "/Image/*",
     "/Thumb/*",
     "/Images",
-    "/Images/*"
+    "/Images/*",
+    "/Picture/*"
 })
 @MultipartConfig
 
@@ -57,8 +61,8 @@ public class Image extends HttpServlet {
         CommandsMap.put("Image", 1);
         CommandsMap.put("Images", 2);
         CommandsMap.put("Thumb", 3);
-
-    }
+        CommandsMap.put("Picture", 4);
+        }
 
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub
@@ -87,11 +91,35 @@ public class Image extends HttpServlet {
                 DisplayImageList(args[2], request, response);
                 break;
             case 3:
-                DisplayImage(Convertors.DISPLAY_THUMB,args[2],  response);
+                DisplayImage(Convertors.DISPLAY_THUMB,args[2], response);
                 break;
+            case 4:
+                displayImagePage(Convertors.DISPLAY_MAINIMAGE, args[2], request, response);
+                break;                
             default:
                 error("Bad Operator", response);
         }
+    }
+    
+    private void displayImagePage(int type, String imageID, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        PicModel tm = new PicModel();
+        tm.setCluster(cluster);
+        
+        LinkedList<Comment> comments = getImageComments(java.util.UUID.fromString(imageID));
+        
+        Pic picture = tm.getPic(type,java.util.UUID.fromString(imageID));
+        picture.setUUID(java.util.UUID.fromString(imageID));
+        picture.setSUUID();
+        picture.setLength(1000);
+        
+        
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/Picture.jsp");
+        request.setAttribute("Comments", comments);
+        request.setAttribute("Picture", picture);
+        rd.forward(request, response);   
+  
     }
 
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -101,7 +129,6 @@ public class Image extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         request.setAttribute("Pics", lsPics);
         rd.forward(request, response);
-
     }
 
     private void DisplayImage(int type,String Image, HttpServletResponse response) throws ServletException, IOException {
@@ -152,6 +179,19 @@ public class Image extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");
              rd.forward(request, response);
         }
+    }
+    
+    public LinkedList<Comment> getImageComments(UUID imageID)
+    {
+        
+        PicModel pictures = new PicModel();
+        
+        
+        LinkedList<Comment> comments = pictures.getPicComments(imageID);       
+        
+        return comments;
+        
+        
     }
 
     private void error(String mess, HttpServletResponse response) throws ServletException, IOException {

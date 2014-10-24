@@ -34,16 +34,16 @@
             <h1>Your Pics</h1>
 
         
-        <c:forEach items="${Pics}" var="pic"> 
-            <c:choose>
-            <c:when test="${pic.getSUUID()} != null">
-            <a href="/Instagrim/Image/${pic.getSUUID()}" ><img src="/Instagrim/Thumb/${pic.SUUID}"></a><br/> 
+        <c:forEach items="${Pics}" var="pic">                
+            <c:choose>                
+            <c:when test="${not empty pic.SUUID}">
+            <a href="/Instagrim/Picture/${pic.SUUID}" ><img src="/Instagrim/Thumb/${pic.SUUID}"></a><br/> 
             </c:when>
             <c:otherwise> No Pictures Found </c:otherwise>
             </c:choose>
         </c:forEach>
-        
         </article>
+        
         <footer>
             <ul>
                 <li class="footer"><a href="/Instagrim">Home</a></li>

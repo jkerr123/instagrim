@@ -19,11 +19,13 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.UUID;
 import javax.imageio.ImageIO;
 import static org.imgscalr.Scalr.*;
 import org.imgscalr.Scalr.Method;
 
 import uk.ac.dundee.computing.aec.instagrim.lib.*;
+import uk.ac.dundee.computing.aec.instagrim.stores.Comment;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 //import uk.ac.dundee.computing.aec.stores.TweetStore;
 
@@ -141,7 +143,6 @@ public class PicModel {
                 pic.setUUID(UUID);
                 pic.setSUUID();
                 Pics.add(pic);
-
             }
         }
         return Pics;
@@ -160,11 +161,12 @@ public class PicModel {
             if (image_type == Convertors.DISPLAY_IMAGE) {
                 
                 ps = session.prepare("select image,imagelength,type from pics where picid =?");
-            } else if (image_type == Convertors.DISPLAY_THUMB) {
+            } else if (image_type == Convertors.DISPLAY_THUMB || image_type == Convertors.DISPLAY_MAINIMAGE) {
                 ps = session.prepare("select thumb,imagelength,thumblength,type from pics where picid =?");
             } else if (image_type == Convertors.DISPLAY_PROCESSED) {
                 ps = session.prepare("select processed,processedlength,type from pics where picid =?");
-            }
+            } 
+                
             BoundStatement boundStatement = new BoundStatement(ps);
             rs = session.execute( // this is where the query is executed
                     boundStatement.bind( // here you are binding the 'boundStatement'
@@ -180,12 +182,15 @@ public class PicModel {
                         length = row.getInt("imagelength");
                     } else if (image_type == Convertors.DISPLAY_THUMB) {
                         bImage = row.getBytes("thumb");
-                        length = row.getInt("thumblength");
-                
+                        length = row.getInt("thumblength");                
                     } else if (image_type == Convertors.DISPLAY_PROCESSED) {
                         bImage = row.getBytes("processed");
                         length = row.getInt("processedlength");
+                    } else if (image_type == Convertors.DISPLAY_MAINIMAGE) {
+                        bImage = row.getBytes("thumb");
+                        length = row.getInt("thumblength");                        
                     }
+                    
                     
                     type = row.getString("type");
 
@@ -201,6 +206,48 @@ public class PicModel {
 
         return p;
 
+    }
+    
+    public java.util.LinkedList<Comment> getPicComments(UUID picID)
+    {
+        LinkedList<Comment> comments = new LinkedList<Comment>();
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select * from piccomments where picid =?");
+        ResultSet rs = null;
+        BoundStatement boundStatement = new BoundStatement(ps);
+        rs = session.execute(boundStatement.bind(picID));
+        if (rs.isExhausted()) {
+            System.out.println("No Images returned");
+            return null;
+        } else {
+            for (Row row : rs) {
+                Comment comment = new Comment();
+                UUID picUUID = row.getUUID("picid");                
+                comment.setPictureID(picUUID);
+                comment.setStringPictureID();
+                
+                UUID commentUUID = row.getUUID("commentid");
+                comment.setCommentID(commentUUID);
+                comment.setStringCommentID();
+                
+                String firstname = row.getString("firstname");
+                comment.setFirstName(firstname);                
+                String lastname = row.getString("lastname");
+                comment.setLastName(lastname);
+                
+                String username = row.getString("username");
+                comment.setUsername(username);
+                
+                String piccomment = row.getString("comment");
+                comment.setComment(piccomment);
+                
+                comments.push(comment);
+                
+            }
+        }
+        return comments;
+        
+        
     }
 
 }
