@@ -30,6 +30,13 @@
                 
                 <input type="submit" value="Comment"> 
             </form>
+    <br>
+    
+            <c:forEach items="${Comments}" var="comment">    
+                First Name: ${comment.getFirstName()}<br>
+                Last Name: ${comment.getLastName()}<br>
+                Comment: ${comment.getComment()}<br>             
+        </c:forEach>
 
         
     </body>

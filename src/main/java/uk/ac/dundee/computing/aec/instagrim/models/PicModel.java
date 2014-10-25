@@ -210,7 +210,7 @@ public class PicModel {
     
     public java.util.LinkedList<Comment> getPicComments(UUID picID)
     {
-        LinkedList<Comment> comments = new LinkedList<Comment>();
+        LinkedList<Comment> comments = new LinkedList<>();
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("select * from piccomments where picid =?");
         ResultSet rs = null;

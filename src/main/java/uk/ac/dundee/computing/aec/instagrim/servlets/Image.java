@@ -185,6 +185,7 @@ public class Image extends HttpServlet {
     {
         
         PicModel pictures = new PicModel();
+        pictures.setCluster(cluster);
         
         
         LinkedList<Comment> comments = pictures.getPicComments(imageID);       

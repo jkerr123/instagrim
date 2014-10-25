@@ -71,9 +71,8 @@ public class User {
         if (results.one() != null)
         {
             return true;
-        }    
-        
-        
+        } 
+
         return false;
     }
     
@@ -135,8 +134,7 @@ public class User {
                 userinfo.push(lastname);
             }
         }
-        return userinfo;
-        
+        return userinfo;       
         
     }
     
