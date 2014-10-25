@@ -250,4 +250,23 @@ public class PicModel {
         
     }
 
+    public void addComment(String username, String firstname, String lastname, String comment, String picid)
+    {
+        
+        try {
+            Convertors convertor = new Convertors();
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("insert into piccomments (commentid, comment, firstname, lastname, picid, username) Values(?,?,?,?,?,?)");
+        
+        java.util.UUID commentid = convertor.getTimeUUID();
+        UUID id = UUID.fromString(picid);
+       
+        BoundStatement boundStatement = new BoundStatement(ps);
+        session.execute(boundStatement.bind(commentid, comment, firstname, lastname, id, username));  
+        }
+        catch(Exception e){
+            
+        }     
+        
+    }
 }

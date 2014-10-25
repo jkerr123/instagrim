@@ -153,32 +153,23 @@ public class Image extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        for (Part part : request.getParts()) {
-            System.out.println("Part Name " + part.getName());
-
-            String type = part.getContentType();
-            String filename = part.getSubmittedFileName();
-            
-            InputStream is = request.getPart(part.getName()).getInputStream();
-            int i = is.available();
-            HttpSession session=request.getSession();
-            LoggedIn lg= (LoggedIn)session.getAttribute("LoggedIn");
-            String username="majed";
-            if (lg.getloggedin()){
-                username=lg.getUsername();
-            }
-            if (i > 0) {
-                byte[] b = new byte[i + 1];
-                is.read(b);
-                System.out.println("Length : " + b.length);
-                PicModel tm = new PicModel();
-                tm.setCluster(cluster);
-                tm.insertPic(b, type, filename, username);
-                is.close();
-            }
-            RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");
-             rd.forward(request, response);
-        }
+       
+        PicModel pic = new PicModel();       
+        pic.setCluster(cluster);
+        
+        String username = request.getParameter("username");
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
+        String comment = request.getParameter("Comment");
+        String picid = request.getParameter("picid");
+        
+        pic.addComment(username, firstname, lastname, comment, picid);
+        
+        
+        
+        
+        
+        
     }
     
     public LinkedList<Comment> getImageComments(UUID imageID)
