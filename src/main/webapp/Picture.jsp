@@ -19,16 +19,13 @@
         
         <img src="/Instagrim/Image/${Picture.SUUID}" height="500" width="500"></a><br/> 
         
-                <form method="POST"  action="Image">
-                
-                    User Name:<input type="text" name="username"><br/>                  
-                    Email:<input type="text" name="email"><br/>
+                <form method="POST"  action="Image">                
+                    
                     First Name:<input type="text" name="firstname"><br/>
                     Last Name:<input type="text" name="lastname"><br/> 
                     <textarea name="Comment" rows="3" cols="25"></textarea>
                     <input hidden type="text" name="picid" value="${Picture.SUUID}">
-                <br/>
-                  
+                <br/>                 
                 <input type="submit" value="Comment"> 
             </form>
     <br>

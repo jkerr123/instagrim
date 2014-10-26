@@ -154,19 +154,29 @@ public class Image extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        
+        
+        HttpSession session = request.getSession();
+        
+        LoggedIn loggedin = (LoggedIn) session.getAttribute("LoggedIn");
+        
+        if(loggedin.getloggedin() == true)
+        {
         PicModel pic = new PicModel();       
         pic.setCluster(cluster);
         
-        String username = request.getParameter("username");
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
+        String username = loggedin.getUsername();
+        String firstname = loggedin.getFirstname();
+        String lastname = loggedin.getLastname();
         String comment = request.getParameter("Comment");
         String picid = request.getParameter("picid");
         
-        pic.addComment(username, firstname, lastname, comment, picid);
         
-        
-        
+        pic.addComment(username, firstname, lastname, comment, picid);     
+        }
+        else
+        {
+            
+        }
         
         
         

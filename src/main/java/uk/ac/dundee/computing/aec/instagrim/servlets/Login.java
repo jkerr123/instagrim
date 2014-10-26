@@ -9,6 +9,7 @@ package uk.ac.dundee.computing.aec.instagrim.servlets;
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -54,12 +55,15 @@ public class Login extends HttpServlet {
         User us=new User();
         us.setCluster(cluster);
         boolean isValid=us.isValidUser(username, password);
+        LinkedList<String> userinfo = us.getUserInfo(username);
         HttpSession session=request.getSession();
         System.out.println("Session in servlet "+session);
         if (isValid){
             LoggedIn lg= new LoggedIn();
             lg.setLoggedin();
             lg.setUsername(username);
+            lg.setFirstname(userinfo.get(1));
+            lg.setLastname(userinfo.get(0));
             //request.setAttribute("LoggedIn", lg);
             
             session.setAttribute("LoggedIn", lg);

@@ -81,7 +81,6 @@ public class UserList extends HttpServlet {
             case 2:
                 getUserProfile(request, response, args[2]);
                 break;
-
             default:
                 System.out.println("Error2");
         }
@@ -120,9 +119,7 @@ public class UserList extends HttpServlet {
         LinkedList<String> userprofile = user.getUserInfo(username);
         RequestDispatcher rd = request.getRequestDispatcher("/userprofile.jsp");
         request.setAttribute("User", userprofile);
-        rd.forward(request, response);  
-        
-        
+        rd.forward(request, response);        
     }
     
     public void getUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -132,8 +129,7 @@ public class UserList extends HttpServlet {
         LinkedList<String> users = user.getUserList();
         RequestDispatcher rd = request.getRequestDispatcher("/profilelist.jsp");
         request.setAttribute("Users", users);
-        rd.forward(request, response);       
-        
+        rd.forward(request, response);               
     }
     
 
