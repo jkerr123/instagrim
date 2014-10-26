@@ -12,28 +12,27 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>${Picture.name}</title>
     </head>
     <body>
         
         
         <img src="/Instagrim/Image/${Picture.SUUID}" height="500" width="500"></a><br/> 
-        
-                <form method="POST"  action="Image">                
-                    
-                    First Name:<input type="text" name="firstname"><br/>
-                    Last Name:<input type="text" name="lastname"><br/> 
+    <c:if test="${LoggedIn.getloggedin()}">
+                <form method="POST"  action="Image">                                               
                     <textarea name="Comment" rows="3" cols="25"></textarea>
                     <input hidden type="text" name="picid" value="${Picture.SUUID}">
                 <br/>                 
                 <input type="submit" value="Comment"> 
             </form>
     <br>
-    
-            <c:forEach items="${Comments}" var="comment">    
-                First Name: ${comment.getFirstName()}<br>
+    </c:if>
+            <c:forEach items="${Comments}" var="comment">  
+                
+                <p> Username: ${comment.getUsername()}<br>
+                    First Name: ${comment.getFirstName()}<br>
                 Last Name: ${comment.getLastName()}<br>
-                Comment: ${comment.getComment()}<br>             
+                Comment: ${comment.getComment()}<br></p>             
         </c:forEach>
 
         

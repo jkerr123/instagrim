@@ -152,6 +152,7 @@ public class PicModel {
         Session session = cluster.connect("instagrim");
         ByteBuffer bImage = null;
         String type = null;
+        String name = null;
         int length = 0;
         try {
             Convertors convertor = new Convertors();
@@ -160,11 +161,11 @@ public class PicModel {
          
             if (image_type == Convertors.DISPLAY_IMAGE) {
                 
-                ps = session.prepare("select image,imagelength,type from pics where picid =?");
+                ps = session.prepare("select image,imagelength,type,name from pics where picid =?");
             } else if (image_type == Convertors.DISPLAY_THUMB || image_type == Convertors.DISPLAY_MAINIMAGE) {
-                ps = session.prepare("select thumb,imagelength,thumblength,type from pics where picid =?");
+                ps = session.prepare("select thumb,imagelength,thumblength,type, name from pics where picid =?");
             } else if (image_type == Convertors.DISPLAY_PROCESSED) {
-                ps = session.prepare("select processed,processedlength,type from pics where picid =?");
+                ps = session.prepare("select processed,processedlength,type, name from pics where picid =?");
             } 
                 
             BoundStatement boundStatement = new BoundStatement(ps);
@@ -193,6 +194,7 @@ public class PicModel {
                     
                     
                     type = row.getString("type");
+                    name = row.getString("name");
 
                 }
             }
@@ -202,7 +204,7 @@ public class PicModel {
         }
         session.close();
         Pic p = new Pic();
-        p.setPic(bImage, length, type);
+        p.setPic(bImage, length, type, name);
 
         return p;
 
@@ -258,7 +260,7 @@ public class PicModel {
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("insert into piccomments (commentid, comment, firstname, lastname, picid, username) Values(?,?,?,?,?,?)");
         
-        java.util.UUID commentid = convertor.getTimeUUID();
+        java.util.UUID commentid = Convertors.getTimeUUID();
         UUID id = UUID.fromString(picid);
        
         BoundStatement boundStatement = new BoundStatement(ps);

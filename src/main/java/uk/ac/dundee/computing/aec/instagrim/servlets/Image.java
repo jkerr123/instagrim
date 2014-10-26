@@ -49,6 +49,7 @@ public class Image extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Cluster cluster;
     private HashMap CommandsMap = new HashMap();
+
     
     
 
@@ -75,6 +76,8 @@ public class Image extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
+   
+        
         String args[] = Convertors.SplitRequestPath(request);
         int command;
         try {
@@ -113,11 +116,14 @@ public class Image extends HttpServlet {
         picture.setSUUID();
         picture.setLength(1000);
         
-        
-        
+            HttpSession session = request.getSession();
+            LoggedIn loggedin  = (LoggedIn) session.getAttribute("LoggedIn");
+        request.setAttribute("LoggedIn", loggedin);
+            
         RequestDispatcher rd = request.getRequestDispatcher("/Picture.jsp");
         request.setAttribute("Comments", comments);
         request.setAttribute("Picture", picture);
+        
         rd.forward(request, response);   
   
     }
@@ -156,8 +162,8 @@ public class Image extends HttpServlet {
        
         
         HttpSession session = request.getSession();
-        
-        LoggedIn loggedin = (LoggedIn) session.getAttribute("LoggedIn");
+        LoggedIn loggedin  = (LoggedIn) session.getAttribute("LoggedIn");
+        request.setAttribute("LoggedIn", loggedin);
         
         if(loggedin.getloggedin() == true)
         {
@@ -171,7 +177,17 @@ public class Image extends HttpServlet {
         String picid = request.getParameter("picid");
         
         
-        pic.addComment(username, firstname, lastname, comment, picid);     
+        pic.addComment(username, firstname, lastname, comment, picid);   
+        
+        
+        //rd = request.getRequestDispatcher("/Picture.jsp");        
+        
+        //rd.forward(request, response);   
+        
+        
+        response.sendRedirect(picid);
+        
+        
         }
         else
         {
