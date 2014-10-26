@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Instagrim</title>
+        <title>${User.get(3)}'s Profile</title>
         <link rel="stylesheet" type="text/css" href="Styles.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
@@ -20,7 +20,7 @@
     </head>
     <body>
         <header>
-            <h1>InstaGrim ! </h1>
+            <h1>InstaGrim!</h1>
             <h2>Your world in Black and White</h2>
         </header>
         
@@ -35,7 +35,7 @@
             <ul>
 
                
-                <li><a href="upload.jsp">Upload</a></li>
+                <li><a href="/Instagrim/upload.jsp">Upload</a></li>
                 <li><a href="/Instagrim/Userlist">Profiles</a></li>
                 
      <c:choose>
@@ -49,8 +49,8 @@
                 
                 
                 <c:otherwise>
-                <li><a href="register.jsp">Register</a></li>
-                <li><a href="login.jsp">Login</a></li>
+                <li><a href="/Instagrim/register.jsp">Register</a></li>
+                <li><a href="/Instagrim/login.jsp">Login</a></li>
                 </c:otherwise>
      </c:choose>
                 

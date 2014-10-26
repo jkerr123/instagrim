@@ -22,6 +22,7 @@
                 <form method="POST"  action="Image">                                               
                     <textarea name="Comment" rows="3" cols="25"></textarea>
                     <input hidden type="text" name="picid" value="${Picture.SUUID}">
+                    <input hidden type="text" name="page" value="addComment">
                 <br/>                 
                 <input type="submit" value="Comment"> 
             </form>
@@ -29,10 +30,10 @@
     </c:if>
             <c:forEach items="${Comments}" var="comment">  
                 
-                <p> Username: ${comment.getUsername()}<br>
+                <p> Username: <a href="/Instagrim/UserProfile/${comment.getUsername()}">${comment.getUsername()}</a><br>
                     First Name: ${comment.getFirstName()}<br>
-                Last Name: ${comment.getLastName()}<br>
-                Comment: ${comment.getComment()}<br></p>             
+                    Last Name: ${comment.getLastName()}<br>
+                    Comment: ${comment.getComment()}<br></p>             
         </c:forEach>
 
         

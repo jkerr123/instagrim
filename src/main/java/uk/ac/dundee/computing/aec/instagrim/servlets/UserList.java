@@ -122,6 +122,14 @@ public class UserList extends HttpServlet {
         rd.forward(request, response);        
     }
     
+    public void editUserProfile(HttpServletRequest request, HttpServletResponse response, String username) throws ServletException, IOException
+    {
+        
+        
+        
+        
+    }
+    
     public void getUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         User user = new User();

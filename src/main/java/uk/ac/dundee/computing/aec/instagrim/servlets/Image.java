@@ -50,9 +50,6 @@ public class Image extends HttpServlet {
     private Cluster cluster;
     private HashMap CommandsMap = new HashMap();
 
-    
-    
-
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -63,7 +60,7 @@ public class Image extends HttpServlet {
         CommandsMap.put("Images", 2);
         CommandsMap.put("Thumb", 3);
         CommandsMap.put("Picture", 4);
-        }
+    }
 
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub
@@ -76,8 +73,7 @@ public class Image extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-   
-        
+
         String args[] = Convertors.SplitRequestPath(request);
         int command;
         try {
@@ -88,44 +84,43 @@ public class Image extends HttpServlet {
         }
         switch (command) {
             case 1:
-                DisplayImage(Convertors.DISPLAY_PROCESSED,args[2], response);
+                DisplayImage(Convertors.DISPLAY_PROCESSED, args[2], response);
                 break;
             case 2:
                 DisplayImageList(args[2], request, response);
                 break;
             case 3:
-                DisplayImage(Convertors.DISPLAY_THUMB,args[2], response);
+                DisplayImage(Convertors.DISPLAY_THUMB, args[2], response);
                 break;
             case 4:
                 displayImagePage(Convertors.DISPLAY_MAINIMAGE, args[2], request, response);
-                break;                
+                break;
             default:
                 error("Bad Operator", response);
         }
     }
-    
-    private void displayImagePage(int type, String imageID, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
+
+    private void displayImagePage(int type, String imageID, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
-        
+
         LinkedList<Comment> comments = getImageComments(java.util.UUID.fromString(imageID));
-        
-        Pic picture = tm.getPic(type,java.util.UUID.fromString(imageID));
+
+        Pic picture = tm.getPic(type, java.util.UUID.fromString(imageID));
         picture.setUUID(java.util.UUID.fromString(imageID));
         picture.setSUUID();
         picture.setLength(1000);
-        
-            HttpSession session = request.getSession();
-            LoggedIn loggedin  = (LoggedIn) session.getAttribute("LoggedIn");
+
+        HttpSession session = request.getSession();
+        LoggedIn loggedin = (LoggedIn) session.getAttribute("LoggedIn");
         request.setAttribute("LoggedIn", loggedin);
-            
+
         RequestDispatcher rd = request.getRequestDispatcher("/Picture.jsp");
         request.setAttribute("Comments", comments);
         request.setAttribute("Picture", picture);
-        
-        rd.forward(request, response);   
-  
+
+        rd.forward(request, response);
+
     }
 
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -137,13 +132,12 @@ public class Image extends HttpServlet {
         rd.forward(request, response);
     }
 
-    private void DisplayImage(int type,String Image, HttpServletResponse response) throws ServletException, IOException {
+    private void DisplayImage(int type, String Image, HttpServletResponse response) throws ServletException, IOException {
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
-  
-        
-        Pic p = tm.getPic(type,java.util.UUID.fromString(Image));
-        
+
+        Pic p = tm.getPic(type, java.util.UUID.fromString(Image));
+
         OutputStream out = response.getOutputStream();
 
         response.setContentType(p.getType());
@@ -159,57 +153,75 @@ public class Image extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       
+
+        String page = request.getParameter("page");
         
+        if(page.equals("addComment"))
+        {
         HttpSession session = request.getSession();
-        LoggedIn loggedin  = (LoggedIn) session.getAttribute("LoggedIn");
+        LoggedIn loggedin = (LoggedIn) session.getAttribute("LoggedIn");
         request.setAttribute("LoggedIn", loggedin);
-        
-        if(loggedin.getloggedin() == true)
-        {
-        PicModel pic = new PicModel();       
-        pic.setCluster(cluster);
-        
-        String username = loggedin.getUsername();
-        String firstname = loggedin.getFirstname();
-        String lastname = loggedin.getLastname();
-        String comment = request.getParameter("Comment");
-        String picid = request.getParameter("picid");
-        
-        
-        pic.addComment(username, firstname, lastname, comment, picid);   
-        
-        
+
+        if (loggedin.getloggedin() == true) {
+            PicModel pic = new PicModel();
+            pic.setCluster(cluster);
+
+            String username = loggedin.getUsername();
+            String firstname = loggedin.getFirstname();
+            String lastname = loggedin.getLastname();
+            String comment = request.getParameter("Comment");
+            String picid = request.getParameter("picid");
+
+            pic.addComment(username, firstname, lastname, comment, picid);
+
         //rd = request.getRequestDispatcher("/Picture.jsp");        
-        
         //rd.forward(request, response);   
-        
-        
-        response.sendRedirect(picid);
-        
-        
+            response.sendRedirect(picid);
+
+        } 
         }
-        else
+        else if(page.equals("upload"))
         {
+            for (Part part : request.getParts()) {
+            System.out.println("Part Name " + part.getName());
+
+            String type = part.getContentType();
+            String filename = part.getSubmittedFileName();
             
+            InputStream is = request.getPart(part.getName()).getInputStream();
+            int i = is.available();
+            HttpSession session=request.getSession();
+            LoggedIn lg= (LoggedIn)session.getAttribute("LoggedIn");
+            String username="majed";
+            if (lg.getloggedin()){
+                username=lg.getUsername();
+            }
+            if (i > 0) {
+                byte[] b = new byte[i + 1];
+                is.read(b);
+                System.out.println("Length : " + b.length);
+                PicModel tm = new PicModel();
+                tm.setCluster(cluster);
+                tm.insertPic(b, type, filename, username);
+                is.close();
+            }
+            RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");
+             rd.forward(request, response);
+        }
         }
         
-        
-        
+
     }
-    
-    public LinkedList<Comment> getImageComments(UUID imageID)
-    {
-        
+
+    public LinkedList<Comment> getImageComments(UUID imageID) {
+
         PicModel pictures = new PicModel();
         pictures.setCluster(cluster);
-        
-        
-        LinkedList<Comment> comments = pictures.getPicComments(imageID);       
-        
+
+        LinkedList<Comment> comments = pictures.getPicComments(imageID);
+
         return comments;
-        
-        
+
     }
 
     private void error(String mess, HttpServletResponse response) throws ServletException, IOException {
