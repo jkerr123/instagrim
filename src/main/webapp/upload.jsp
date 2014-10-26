@@ -13,7 +13,7 @@
         <link rel="stylesheet" type="text/css" href="Styles.css" />
     </head>
     <body>
-        <h1>InstaGrim ! </h1>
+        <h1>InstaGrim!</h1>
         <h2>Your world in Black and White</h2>
         <nav>
             <ul>
@@ -25,7 +25,7 @@
         <article>
             <h3>File Upload</h3>
             <form method="POST" enctype="multipart/form-data" action="Image">
-                File to upload: <input type="file" name="upfile"><br/>
+                 File to upload: <input type="file" name="upfile"><br/>
                 <input hidden type="text" name="page" value="upload">
                 <br/>
                 <input type="submit" value="Press"> to upload the file!
@@ -35,7 +35,7 @@
         <footer>
             <ul>
                 <li class="footer"><a href="/Instagrim">Home</a></li>
-            </ul>
+            </ul>     
         </footer>
     </body>
 </html>

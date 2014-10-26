@@ -1,8 +1,9 @@
 <%-- 
-    Document   : index
-    Created on : Sep 28, 2014, 7:01:44 PM
-    Author     : Administrator
+    Document   : error-404
+    Created on : 26-Oct-2014, 21:46:53
+    Author     : jamie
 --%>
+
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,18 +15,15 @@
     <head>
         <title>Instagrim</title>
         <link rel="stylesheet" type="text/css" href="Styles.css" />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
-
-
-    </head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">   
+     </head>
     <body>
         <header>
             <h1>InstaGrim ! </h1>
             <h2>Your world in Black and White</h2>
         </header>
         
-        <p>${message}</p>
+        <p>Sorry, the page you have requested does not exist.</p>
         
         <nav>
             <ul>

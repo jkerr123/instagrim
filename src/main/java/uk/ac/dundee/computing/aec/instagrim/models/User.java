@@ -162,6 +162,19 @@ public class User {
         return users;
     }
     
+    public boolean modifyProfile(String username, String firstname, String lastname, String email)
+    {
+        
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("update userprofiles set firstname =?, lastname =?, email =? where login =?");
+        ResultSet rs = null;
+        BoundStatement boundStatement = new BoundStatement(ps);
+        boundStatement.bind(firstname, lastname, email, username);
+        
+        return true;
+        
+    }
+    
        public void setCluster(Cluster cluster) {
         this.cluster = cluster;
     }

@@ -16,6 +16,8 @@
     </head>
     <body>
         
+   
+        
         
         <img src="/Instagrim/Image/${Picture.SUUID}" height="500" width="500"></a><br/> 
     <c:if test="${LoggedIn.getloggedin()}">
@@ -28,14 +30,29 @@
             </form>
     <br>
     </c:if>
-            <c:forEach items="${Comments}" var="comment">  
-                
+            <c:forEach items="${Comments}" var="comment">              
                 <p> Username: <a href="/Instagrim/UserProfile/${comment.getUsername()}">${comment.getUsername()}</a><br>
                     First Name: ${comment.getFirstName()}<br>
                     Last Name: ${comment.getLastName()}<br>
                     Comment: ${comment.getComment()}<br></p>             
         </c:forEach>
 
+                     <nav float:right>
+            <ul>
+                     <c:choose>
+                <c:when test="${LoggedIn.loggedin}">                 
+                <li><a href="/Instagrim/Images/${LoggedIn.username}">Your Images</a></li>
+                <li><a href="/Instagrim/Logout">Logout</a></li> 
+                
+                </c:when>             
+                
+                <c:otherwise>
+                <li><a href="register.jsp">Register</a></li>
+                <li><a href="login.jsp">Login</a></li>
+                </c:otherwise>
+     </c:choose>
+            </ul>
+        </nav>
         
     </body>
 </html>

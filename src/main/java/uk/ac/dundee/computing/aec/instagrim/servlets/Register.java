@@ -63,6 +63,12 @@ public class Register extends HttpServlet {
             
             //response.sendRedirect("/Instagrim/register.jsp");
         }
+        else if(username.equals("") || password.equals("") || email.equals("") || firstname.equals("") || lastname.equals("") )
+        {
+            RequestDispatcher rd = request.getRequestDispatcher("/register.jsp");
+            request.setAttribute("message", "Please fill in every field");
+              rd.forward(request, response);     
+        }
         else
         {
             us.RegisterUser(username, password, email, firstname, lastname);

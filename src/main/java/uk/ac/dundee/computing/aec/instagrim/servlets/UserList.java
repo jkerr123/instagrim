@@ -99,6 +99,18 @@ public class UserList extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
   
+        String username = request.getParameter("username");
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
+        String email = request.getParameter("email");
+        
+        User user = new User();
+        user.setCluster(cluster);
+        user.modifyProfile(username, firstname, lastname, email);
+        RequestDispatcher rd = request.getRequestDispatcher("/userprofile.jsp");
+        request.setAttribute("Message", "Profile Updated");
+        rd.forward(request, response); 
+        
     }
 
     /**
@@ -122,13 +134,7 @@ public class UserList extends HttpServlet {
         rd.forward(request, response);        
     }
     
-    public void editUserProfile(HttpServletRequest request, HttpServletResponse response, String username) throws ServletException, IOException
-    {
-        
-        
-        
-        
-    }
+
     
     public void getUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {

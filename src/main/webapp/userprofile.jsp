@@ -24,12 +24,36 @@
             <h2>Your world in Black and White</h2>
         </header>
         
+        <h1>${User.get(3)}'s Profile</h1>
         
+             <c:choose>
+                <c:when test="${LoggedIn.loggedin}"> 
+                    
+                    <form method="POST"  action="UpdateProfile">
+                    <p> Username: ${User.get(3)} </p> 
+                            
+                <ul>
+                    <li><input hidden type="text" name="username" value="${User.get(3)}"></li>                    
+                    <li>Email <input type="text" name="email" value="${User.get(2)}"></li>
+                    <li>First Name <input type="text" name="firstname" value="${User.get(1)}"></li>
+                    <li>Last Name <input type="text" name="lastname" value="${User.get(0)}"></li>                    
+                </ul>
+                <br/>           
+          
+
+                    
+                
+                    <input type="submit" value="Modify Profile"> </form>
+                </c:when>
+         
+                    <c:otherwise>
         <p> Username: ${User.get(3)} </p>
         <p> First name: ${User.get(1)} </p>
         <p> Surname: ${User.get(0)} </p>        
         <p> Email: ${User.get(2)} </p>
         <p> <a href="/Instagrim/Images/${User.get(3)}">This User's Images</a></p>
+                    </c:otherwise>
+             </c:choose>
         
         <nav>
             <ul>
@@ -41,9 +65,7 @@
      <c:choose>
                 <c:when test="${LoggedIn.loggedin}">                 
                 <li><a href="/Instagrim/Images/${LoggedIn.username}">Your Images</a></li>
-                <form method="POST"  action="Logout">                
-                <input type="submit" value="Logout"> 
-                </form>
+                <li><a href="/Instagrim/Logout">Logout</a></li>                 
                 </c:when>
                 
                 
